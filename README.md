@@ -131,7 +131,7 @@ and it will handle all dependencies automatically.
 ### Build
 
 ```console
-make
+make build
 ```
 
 ### Run main
