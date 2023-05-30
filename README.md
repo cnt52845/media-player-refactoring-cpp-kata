@@ -85,7 +85,7 @@ Next, your task is to:
    {
        Mp3Player mp3_player;
        MediaFile mp3_file;
-       mp3File.format = "mp3";
+       mp3_file.format = "mp3";
        EXPECT_NO_THROW(mp3_player.play_audio(mp3_file));
    }
 
@@ -93,7 +93,7 @@ Next, your task is to:
    {
        Mp3Player mp3_player;
        MediaFile flac_file;
-       nonMp3File.format = "flac";
+       flac_file.format = "flac";
        EXPECT_THROW(mp3_player.play_audio(flac_file), std::invalid_argument);
    }
    ```
