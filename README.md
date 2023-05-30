@@ -39,17 +39,7 @@ files that come in different formats (e.g., `.mp3`, `.flac`, `.wav` for audio,
 `.jpeg`, `.png` for images, and `.mp4`, `.mkv` for videos). And some players
 can only handle certain formats.
 
-We have the `MediaFile` class to represent a media file:
-
-```cpp
-class MediaFile {
-public:
-    std::string format;
-    std::string filename;
-};
-```
-
-Next, your task is to:
+We have the `MediaFile` class to represent a media file, your task is to:
 
 1. Update the player interfaces to take `MediaFile` objects, e.g.:
 
