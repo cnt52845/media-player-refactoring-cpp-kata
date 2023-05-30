@@ -1,6 +1,14 @@
 #pragma once
 
 #include <stdexcept>
+#include <string>
+
+class MediaFile {
+public:
+    std::string format;
+    std::string filename;
+};
+
 class IMediaPlayer {
 public:
     virtual void play_audio()    = 0;
@@ -35,5 +43,17 @@ public:
     void view_image() final
     {
         // Implementation...
+    }
+};
+
+using Players = std::vector<std::shared_ptr<IMediaPlayer>>;
+
+class MediaListPlayer {
+public:
+    void play_list(const std::vector<MediaFile>& media_list, const Players& players)
+    {
+        for (size_t i = 0; i < media_list.size(); i++) {
+            // Implementation...
+        }
     }
 };
