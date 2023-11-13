@@ -50,10 +50,20 @@ TEST(AudioPlayerTest, WavPlayerRejectsNonWav)
     EXPECT_THROW(wav_player.play_audio(mp3_file), std::invalid_argument);
 }
 
-TEST(VideoPlayerTest, DisplayVideo)
+TEST(VideoPlayerTest, Mp4PlayerHandlesMp4)
 {
-    VideoPlayer videoPlayer;
-    EXPECT_NO_THROW(videoPlayer.display_video());
+    Mp4Player mp4_player;
+    MediaFile mp4_file;
+    mp4_file.format = "mp4";
+    EXPECT_NO_THROW(mp4_player.display_video(mp4_file));
+}
+
+TEST(VideoPlayerTest, Mp4PlayerRejectsNonMp4)
+{
+    Mp4Player mp4_player;
+    MediaFile mkv_file;
+    mkv_file.format = "mkv";
+    EXPECT_THROW(mp4_player.display_video(mkv_file), std::invalid_argument);
 }
 
 TEST(ImagePlayerTest, ViewImage)

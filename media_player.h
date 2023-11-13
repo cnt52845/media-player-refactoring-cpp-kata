@@ -23,7 +23,7 @@ public:
 
 class IVideoPlayer {
 public:
-    virtual void display_video() = 0;
+    virtual void display_video(const MediaFile& file) = 0;
 };
 
 class IImageViewer {
@@ -64,10 +64,13 @@ public:
     }
 };
 
-class VideoPlayer : public IVideoPlayer {
+class Mp4Player : public IVideoPlayer {
 public:
-    void display_video() final
+    void display_video(const MediaFile& file) override
     {
+        if (file.format != "mp4") {
+            throw std::invalid_argument("Invalid file format for Mp4Player!");
+        }
         // Implementation...
     }
 };
