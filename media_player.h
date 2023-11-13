@@ -53,6 +53,17 @@ public:
     }
 };
 
+class WavPlayer : public IAudioPlayer {
+public:
+    void play_audio(const MediaFile& file) override
+    {
+        if (file.format != "wav") {
+            throw std::invalid_argument("Invalid file format for WavPlayer!");
+        }
+        // Implementation...
+    }
+};
+
 class VideoPlayer : public IVideoPlayer {
 public:
     void display_video() final

@@ -34,6 +34,22 @@ TEST(AudioPlayerTest, FlacPlayerRejectsNonFlac)
     EXPECT_THROW(flac_player.play_audio(mp3_file), std::invalid_argument);
 }
 
+TEST(AudioPlayerTest, WavPlayerHandlesWav)
+{
+    WavPlayer wav_player;
+    MediaFile wav_file;
+    wav_file.format = "wav";
+    EXPECT_NO_THROW(wav_player.play_audio(wav_file));
+}
+
+TEST(AudioPlayerTest, WavPlayerRejectsNonWav)
+{
+    WavPlayer wav_player;
+    MediaFile mp3_file;
+    mp3_file.format = "mp3";
+    EXPECT_THROW(wav_player.play_audio(mp3_file), std::invalid_argument);
+}
+
 TEST(VideoPlayerTest, DisplayVideo)
 {
     VideoPlayer videoPlayer;
