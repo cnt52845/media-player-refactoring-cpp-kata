@@ -75,6 +75,17 @@ public:
     }
 };
 
+class MkvPlayer : public IVideoPlayer {
+public:
+    void display_video(const MediaFile& file) override
+    {
+        if (file.format != "mkv") {
+            throw std::invalid_argument("Invalid file format for MkvPlayer!");
+        }
+        // Implementation...
+    }
+};
+
 class ImagePlayer : public IImageViewer {
 public:
     void view_image() final

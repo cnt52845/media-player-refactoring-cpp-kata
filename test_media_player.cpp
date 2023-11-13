@@ -66,6 +66,22 @@ TEST(VideoPlayerTest, Mp4PlayerRejectsNonMp4)
     EXPECT_THROW(mp4_player.display_video(mkv_file), std::invalid_argument);
 }
 
+TEST(VideoPlayerTest, MkvPlayerHandlesMkv)
+{
+    MkvPlayer mkv_player;
+    MediaFile mkv_file;
+    mkv_file.format = "mkv";
+    EXPECT_NO_THROW(mkv_player.display_video(mkv_file));
+}
+
+TEST(VideoPlayerTest, MkvPlayerRejectsNonMkv)
+{
+    MkvPlayer mkv_player;
+    MediaFile mp4_file;
+    mp4_file.format = "mp4";
+    EXPECT_THROW(mkv_player.display_video(mp4_file), std::invalid_argument);
+}
+
 TEST(ImagePlayerTest, ViewImage)
 {
     ImagePlayer imagePlayer;
