@@ -42,6 +42,17 @@ public:
     }
 };
 
+class FlacPlayer : public IAudioPlayer {
+public:
+    void play_audio(const MediaFile& file) override
+    {
+        if (file.format != "flac") {
+            throw std::invalid_argument("Invalid file format for FlacPlayer!");
+        }
+        // Implementation...
+    }
+};
+
 class VideoPlayer : public IVideoPlayer {
 public:
     void display_video() final
