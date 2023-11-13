@@ -98,6 +98,22 @@ TEST(ImagePlayerTest, JpegPlayerRejectsNonJpeg)
     EXPECT_THROW(jpeg_player.view_image(png_file), std::invalid_argument);
 }
 
+TEST(ImagePlayerTest, PngPlayerHandlesPng)
+{
+    PngPlayer png_player;
+    MediaFile png_file;
+    png_file.format = "png";
+    EXPECT_NO_THROW(png_player.view_image(png_file));
+}
+
+TEST(ImagePlayerTest, PngPlayerRejectsNonPng)
+{
+    PngPlayer png_player;
+    MediaFile jpeg_file;
+    jpeg_file.format = "jpeg";
+    EXPECT_THROW(png_player.view_image(jpeg_file), std::invalid_argument);
+}
+
 TEST(MediaListPlayerTest, MediaListPlayerPlaysCompatibleList)
 {
     std::vector<MediaFile> media_list{/* populate media files */};

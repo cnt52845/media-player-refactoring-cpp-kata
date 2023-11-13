@@ -97,6 +97,17 @@ public:
     }
 };
 
+class PngPlayer : public IImageViewer {
+public:
+    void view_image(const MediaFile& file) final
+    {
+        if (file.format != "png") {
+            throw std::invalid_argument("Invalid file format for PngPlayer!");
+        }
+        // Implementation...
+    }
+};
+
 using Players = std::vector<std::shared_ptr<IMediaPlayer>>;
 
 class MediaListPlayer {
