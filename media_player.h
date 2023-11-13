@@ -28,7 +28,7 @@ public:
 
 class IImageViewer {
 public:
-    virtual void view_image() = 0;
+    virtual void view_image(const MediaFile& file) = 0;
 };
 
 class Mp3Player : public IAudioPlayer {
@@ -86,10 +86,13 @@ public:
     }
 };
 
-class ImagePlayer : public IImageViewer {
+class JpegPlayer : public IImageViewer {
 public:
-    void view_image() final
+    void view_image(const MediaFile& file) final
     {
+        if (file.format != "jpeg") {
+            throw std::invalid_argument("Invalid file format for JpegPlayer!");
+        }
         // Implementation...
     }
 };

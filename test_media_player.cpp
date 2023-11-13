@@ -82,10 +82,20 @@ TEST(VideoPlayerTest, MkvPlayerRejectsNonMkv)
     EXPECT_THROW(mkv_player.display_video(mp4_file), std::invalid_argument);
 }
 
-TEST(ImagePlayerTest, ViewImage)
+TEST(ImagePlayerTest, JpegPlayerHandlesJpeg)
 {
-    ImagePlayer imagePlayer;
-    EXPECT_NO_THROW(imagePlayer.view_image());
+    JpegPlayer jpeg_player;
+    MediaFile  jpeg_file;
+    jpeg_file.format = "jpeg";
+    EXPECT_NO_THROW(jpeg_player.view_image(jpeg_file));
+}
+
+TEST(ImagePlayerTest, JpegPlayerRejectsNonJpeg)
+{
+    JpegPlayer jpeg_player;
+    MediaFile  png_file;
+    png_file.format = "png";
+    EXPECT_THROW(jpeg_player.view_image(png_file), std::invalid_argument);
 }
 
 TEST(MediaListPlayerTest, MediaListPlayerPlaysCompatibleList)
