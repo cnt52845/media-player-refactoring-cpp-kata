@@ -2,10 +2,20 @@
 
 #include "media_player.h"
 
-TEST(AudioPlayerTest, PlayAudio)
+TEST(AudioPlayerTest, Mp3PlayerHandlesMp3)
 {
-    AudioPlayer audio_player;
-    EXPECT_NO_THROW(audio_player.play_audio());
+    Mp3Player mp3_player;
+    MediaFile mp3_file;
+    mp3_file.format = "mp3";
+    EXPECT_NO_THROW(mp3_player.play_audio(mp3_file));
+}
+
+TEST(AudioPlayerTest, Mp3PlayerRejectsNonMp3)
+{
+    Mp3Player mp3_player;
+    MediaFile flac_file;
+    flac_file.format = "flac";
+    EXPECT_THROW(mp3_player.play_audio(flac_file), std::invalid_argument);
 }
 
 TEST(VideoPlayerTest, DisplayVideo)

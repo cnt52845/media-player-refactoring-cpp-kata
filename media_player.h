@@ -18,7 +18,7 @@ public:
 
 class IAudioPlayer {
 public:
-    virtual void play_audio() = 0;
+    virtual void play_audio(const MediaFile& file) = 0;
 };
 
 class IVideoPlayer {
@@ -31,10 +31,13 @@ public:
     virtual void view_image() = 0;
 };
 
-class AudioPlayer : public IAudioPlayer {
+class Mp3Player : public IAudioPlayer {
 public:
-    void play_audio() final
+    void play_audio(const MediaFile& file) override
     {
+        if (file.format != "mp3") {
+            throw std::invalid_argument("Invalid file format for Mp3Player!");
+        }
         // Implementation...
     }
 };
