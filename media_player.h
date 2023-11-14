@@ -129,6 +129,11 @@ public:
                 video_player->second->display_video(file);
                 continue;
             }
+            auto image_player = players.image_players.find(file.format);
+            if (image_player != players.image_players.end()) {
+                image_player->second->view_image(file);
+                continue;
+            }
             throw std::invalid_argument("Unknown file format!");
         }
     }
