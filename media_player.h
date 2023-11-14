@@ -11,13 +11,6 @@ public:
     std::string filename;
 };
 
-class IMediaPlayer {
-public:
-    virtual void play_audio()    = 0;
-    virtual void display_video() = 0;
-    virtual void view_image()    = 0;
-};
-
 class IAudioPlayer {
 public:
     virtual void play_audio(const MediaFile& file) = 0;
@@ -126,10 +119,14 @@ public:
     void play_list(const MediaList& media_list, const Players& players)
     {
         for (const MediaFile& file : media_list) {
-            // Implementation...
             auto audio_player = players.audio_players.find(file.format);
             if (audio_player != players.audio_players.end()) {
                 audio_player->second->play_audio(file);
+                continue;
+            }
+            auto video_player = players.video_players.find(file.format);
+            if (video_player != players.video_players.end()) {
+                video_player->second->display_video(file);
                 continue;
             }
             throw std::invalid_argument("Unknown file format!");

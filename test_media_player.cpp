@@ -121,12 +121,14 @@ TEST(MediaListPlayerTest, MediaListPlayerPlaysCompatibleList)
         {"mp3", "file.mp3"},
         {"flac", "file.flac"},
         {"wav", "file.wav"},
+        {"mp4", "file.mp4"},
+        {"mkv", "file.mkv"},
     };
-    MediaListPlayer::Players players{
-        .audio_players{{"mp3", std::make_shared<Mp3Player>()},
-                       {"flac", std::make_shared<FlacPlayer>()},
-                       {"wav", std::make_shared<WavPlayer>()}},
-    };
+    MediaListPlayer::Players players{.audio_players{{"mp3", std::make_shared<Mp3Player>()},
+                                                    {"flac", std::make_shared<FlacPlayer>()},
+                                                    {"wav", std::make_shared<WavPlayer>()}},
+                                     .video_players{{"mp4", std::make_shared<Mp4Player>()},
+                                                    {"mkv", std::make_shared<MkvPlayer>()}}};
 
     MediaListPlayer list_player;
     EXPECT_NO_THROW(list_player.play_list(media_list, players));
