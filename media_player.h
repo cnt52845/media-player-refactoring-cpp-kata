@@ -2,6 +2,8 @@
 
 #include <stdexcept>
 #include <string>
+#include <memory>
+#include <map>
 
 class MediaFile {
 public:
@@ -108,14 +110,29 @@ public:
     }
 };
 
-using Players = std::vector<std::shared_ptr<IMediaPlayer>>;
-
 class MediaListPlayer {
 public:
-    void play_list(const std::vector<MediaFile>& media_list, const Players& players)
+    using MediaList    = std::vector<MediaFile>;
+    using AudioPlayers = std::map<std::string, std::shared_ptr<IAudioPlayer>>;
+    using VideoPlayers = std::map<std::string, std::shared_ptr<IVideoPlayer>>;
+    using ImagePlayers = std::map<std::string, std::shared_ptr<IImageViewer>>;
+
+    struct Players {
+        AudioPlayers audio_players;
+        VideoPlayers video_players;
+        ImagePlayers image_players;
+    };
+
+    void play_list(const MediaList& media_list, const Players& players)
     {
-        for (size_t i = 0; i < media_list.size(); i++) {
+        for (const MediaFile& file : media_list) {
             // Implementation...
+            auto audio_player = players.audio_players.find(file.format);
+            if (audio_player != players.audio_players.end()) {
+                audio_player->second->play_audio(file);
+                continue;
+            }
+            throw std::invalid_argument("Unknown file format!");
         }
     }
 };

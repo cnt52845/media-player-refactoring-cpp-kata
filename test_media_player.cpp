@@ -1,4 +1,5 @@
 #include <gmock/gmock.h>
+#include <memory>
 
 #include "media_player.h"
 
@@ -116,8 +117,16 @@ TEST(ImagePlayerTest, PngPlayerRejectsNonPng)
 
 TEST(MediaListPlayerTest, MediaListPlayerPlaysCompatibleList)
 {
-    std::vector<MediaFile> media_list{/* populate media files */};
-    Players                players{/* populate players */};
+    MediaListPlayer::MediaList media_list{
+        {"mp3", "file.mp3"},
+        {"flac", "file.flac"},
+        {"wav", "file.wav"},
+    };
+    MediaListPlayer::Players players{
+        .audio_players{{"mp3", std::make_shared<Mp3Player>()},
+                       {"flac", std::make_shared<FlacPlayer>()},
+                       {"wav", std::make_shared<WavPlayer>()}},
+    };
 
     MediaListPlayer list_player;
     EXPECT_NO_THROW(list_player.play_list(media_list, players));
