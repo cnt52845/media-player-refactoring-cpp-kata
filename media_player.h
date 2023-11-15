@@ -2,6 +2,8 @@
 
 #include <stdexcept>
 #include <string>
+#include <memory>
+#include <map>
 
 class MediaFile {
 public:
@@ -9,51 +11,130 @@ public:
     std::string filename;
 };
 
-class IMediaPlayer {
+class IAudioPlayer {
 public:
-    virtual void play_audio()    = 0;
-    virtual void display_video() = 0;
-    virtual void view_image()    = 0;
+    virtual void play_audio(const MediaFile& file) = 0;
 };
 
-class AudioPlayer : public IMediaPlayer {
+class IVideoPlayer {
 public:
-    void play_audio() final
-    {
-        // Implementation...
-    }
-    void display_video() final { throw std::logic_error("Not implemented"); }
-    void view_image() final { throw std::logic_error("Not implemented"); }
+    virtual void display_video(const MediaFile& file) = 0;
 };
 
-class VideoPlayer : public IMediaPlayer {
+class IImageViewer {
 public:
-    void play_audio() final { throw std::logic_error("Not implemented"); }
-    void display_video() final
-    {
-        // Implementation...
-    }
-    void view_image() final { throw std::logic_error("Not implemented"); }
+    virtual void view_image(const MediaFile& file) = 0;
 };
 
-class ImagePlayer : public IMediaPlayer {
+class Mp3Player : public IAudioPlayer {
 public:
-    void play_audio() final { throw std::logic_error("Not implemented"); }
-    void display_video() final { throw std::logic_error("Not implemented"); }
-    void view_image() final
+    void play_audio(const MediaFile& file) override
     {
+        if (file.format != "mp3") {
+            throw std::invalid_argument("Invalid file format for Mp3Player!");
+        }
         // Implementation...
     }
 };
 
-using Players = std::vector<std::shared_ptr<IMediaPlayer>>;
+class FlacPlayer : public IAudioPlayer {
+public:
+    void play_audio(const MediaFile& file) override
+    {
+        if (file.format != "flac") {
+            throw std::invalid_argument("Invalid file format for FlacPlayer!");
+        }
+        // Implementation...
+    }
+};
+
+class WavPlayer : public IAudioPlayer {
+public:
+    void play_audio(const MediaFile& file) override
+    {
+        if (file.format != "wav") {
+            throw std::invalid_argument("Invalid file format for WavPlayer!");
+        }
+        // Implementation...
+    }
+};
+
+class Mp4Player : public IVideoPlayer {
+public:
+    void display_video(const MediaFile& file) override
+    {
+        if (file.format != "mp4") {
+            throw std::invalid_argument("Invalid file format for Mp4Player!");
+        }
+        // Implementation...
+    }
+};
+
+class MkvPlayer : public IVideoPlayer {
+public:
+    void display_video(const MediaFile& file) override
+    {
+        if (file.format != "mkv") {
+            throw std::invalid_argument("Invalid file format for MkvPlayer!");
+        }
+        // Implementation...
+    }
+};
+
+class JpegPlayer : public IImageViewer {
+public:
+    void view_image(const MediaFile& file) final
+    {
+        if (file.format != "jpeg") {
+            throw std::invalid_argument("Invalid file format for JpegPlayer!");
+        }
+        // Implementation...
+    }
+};
+
+class PngPlayer : public IImageViewer {
+public:
+    void view_image(const MediaFile& file) final
+    {
+        if (file.format != "png") {
+            throw std::invalid_argument("Invalid file format for PngPlayer!");
+        }
+        // Implementation...
+    }
+};
 
 class MediaListPlayer {
 public:
-    void play_list(const std::vector<MediaFile>& media_list, const Players& players)
+    using MediaList    = std::vector<MediaFile>;
+    using AudioPlayers = std::map<std::string, std::shared_ptr<IAudioPlayer>>;
+    using VideoPlayers = std::map<std::string, std::shared_ptr<IVideoPlayer>>;
+    using ImagePlayers = std::map<std::string, std::shared_ptr<IImageViewer>>;
+
+    struct Players {
+        AudioPlayers audio_players;
+        VideoPlayers video_players;
+        ImagePlayers image_players;
+    };
+
+    void play_list(const MediaList& media_list, const Players& players)
     {
-        for (size_t i = 0; i < media_list.size(); i++) {
-            // Implementation...
+        for (const MediaFile& file : media_list) {
+            auto audio_player = players.audio_players.find(file.format);
+            if (audio_player != players.audio_players.end()) {
+                audio_player->second->play_audio(file);
+                continue;
+            }
+            auto video_player = players.video_players.find(file.format);
+            if (video_player != players.video_players.end()) {
+                video_player->second->display_video(file);
+                continue;
+            }
+            auto image_player = players.image_players.find(file.format);
+            if (image_player != players.image_players.end()) {
+                image_player->second->view_image(file);
+                continue;
+            }
+            throw std::invalid_argument("Unknown file format!");
         }
     }
 };
