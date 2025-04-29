@@ -17,30 +17,39 @@ public:
     virtual void view_image()    = 0;
 };
 
-class AudioPlayer : public IMediaPlayer {
+class IAudioPlayer {
+public:
+    virtual void play_audio() = 0;
+};
+
+class IVideoPlayer {
+public:
+    virtual void display_video() = 0;
+};
+
+class IImagePlayer {
+public:
+    virtual void view_image() = 0;
+};
+
+class AudioPlayer : public IAudioPlayer {
 public:
     void play_audio() final
     {
         // Implementation...
     }
-    void display_video() final { throw std::logic_error("Not implemented"); }
-    void view_image() final { throw std::logic_error("Not implemented"); }
 };
 
-class VideoPlayer : public IMediaPlayer {
+class VideoPlayer : public IVideoPlayer {
 public:
-    void play_audio() final { throw std::logic_error("Not implemented"); }
     void display_video() final
     {
         // Implementation...
     }
-    void view_image() final { throw std::logic_error("Not implemented"); }
 };
 
-class ImagePlayer : public IMediaPlayer {
+class ImagePlayer : public IImagePlayer {
 public:
-    void play_audio() final { throw std::logic_error("Not implemented"); }
-    void display_video() final { throw std::logic_error("Not implemented"); }
     void view_image() final
     {
         // Implementation...
